@@ -1,0 +1,14 @@
+{
+  "courses": [
+    {
+      "course_id": 1,
+      "title": "Mathematics",
+      "teacher_id": 2
+    },
+    {
+      "course_id": 2,
+      "title": "Physics",
+      "teacher_id": 2
+    }
+  ]
+}

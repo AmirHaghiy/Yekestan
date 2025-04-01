@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {
+      "test_id": 1,
+      "course_id": 1,
+      "questions": ["What is 2+2?", "What is gravity?"],
+      "max_score": 100
+    }
+  ]
+}
