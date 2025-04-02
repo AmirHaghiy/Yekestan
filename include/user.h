@@ -29,7 +29,7 @@ public:
     void createUser(const std::string &name, const std::string &email, const std::string &password, const std::string &role);
     void viewUser(int userId);
     void updateUser(int userId, const std::string &name, const std::string &email, const std::string &role);
-    void deleteUser(int userId); // Soft delete
+    void deleteUser(int userId);
 
     void viewInactiveUsers();
 };
@@ -39,10 +39,8 @@ private:
     int teacherId;
 
 public:
-    // Constructor
     Teacher(int id, const std::string &name, const std::string &email, const std::string &password);
 
-    // Teacher-specific methods
     void createCourse(const std::string &title);
     void assignTest(int courseId, const std::string &testName);
     void enterGrades(int studentId, int courseId, int grade);
@@ -53,10 +51,8 @@ private:
     int studentId;
 
 public:
-    // Constructor
     Student(int id, const std::string &name, const std::string &email, const std::string &password);
 
-    // Student-specific methods
     void enrollInCourse(int courseId);
     void takeTest(int testId);
     void viewGrades();
