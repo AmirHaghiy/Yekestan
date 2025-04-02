@@ -32,6 +32,7 @@ public:
     void deleteUser(int userId);
 
     void viewInactiveUsers();
+    void generateCourseReport();
 };
 class Teacher : public User
 {
