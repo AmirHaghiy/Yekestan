@@ -1,7 +1,7 @@
-#include "user.h"
+#include "../include/user.h"
 #include <iostream>
 #include <fstream>
-#include "json.hpp"
+#include "../include/json.hpp"
 
 using json = nlohmann::json;
 
@@ -35,7 +35,7 @@ string User::getRole() const
 
 void User::login(const std::string &email, const std::string &password)
 {
-    std::ifstream inputFile("data/users.json");
+    std::ifstream inputFile("../data/users.json");
 
     json users;
     inputFile >> users;
@@ -66,7 +66,7 @@ int User::logout()
 }
 void User::changePassword(const std::string &oldPassword, const std::string &newPassword)
 {
-    std::ifstream inputFile("data/users.json");
+    std::ifstream inputFile("../data/users.json");
     json users;
     inputFile >> users; // Parse the JSON data
     inputFile.close();
@@ -82,7 +82,7 @@ void User::changePassword(const std::string &oldPassword, const std::string &new
     }
     if (passwordUpdated)
     {
-        std::ofstream outputFile("data/users.json");
+        std::ofstream outputFile("../data/users.json");
         outputFile << users.dump(4); // Pretty-print JSON with 4 spaces
         outputFile.close();
 
