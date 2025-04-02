@@ -35,7 +35,6 @@ void Test::saveToDatabase()
     std::cout << "Test saved to database!" << std::endl;
 }
 
-// Load test from database
 Test Test::loadFromDatabase(int testId)
 {
     std::ifstream inputFile("data/tests.json");
