@@ -4,8 +4,10 @@
 
 using json = nlohmann::json;
 
-Course::Course(int courseId, const std::string &title, int teacherId)
-    : courseId(courseId), title(title), teacherId(teacherId) {}
+Course::Course(int courseId, const std::string &title, int teacherId, int capacity,
+               const std::string &startTime, const int &vahed)
+    : courseId(courseId), title(title), teacherId(teacherId), capacity(capacity),
+      startTime(startTime), vahed(vahed), announcements(json::array()), homeworks(json::array()) {}
 
 int Course::getCourseId() const
 {
@@ -19,6 +21,26 @@ int Course::getTeacherId() const
 {
     return teacherId;
 }
+int Course::getCapacity() const
+{
+    return capacity;
+}
+int Course::getVahed() const
+{
+    return vahed;
+}
+std::string Course::getStartTime() const
+{
+    return startTime;
+}
+json Course::getAnnouncments() const
+{
+    return announcements;
+}
+json Course::getHomeworks() const
+{
+    return homeworks;
+}
 
 void Course::saveToDatabase()
 {
@@ -28,7 +50,12 @@ void Course::saveToDatabase()
     json newCourse = {
         {"course_id", courseId},
         {"title", title},
-        {"teacher_id", teacherId}};
+        {"teacher_id", teacherId},
+        {"capacity", capacity},
+        {"start_time", startTime},
+        {"vahed", vahed},
+        {"announcments", announcements},
+        {"homeworks", homeworks}};
 
     courses["courses"].push_back(newCourse);
 
@@ -52,9 +79,24 @@ Course Course::loadFromDatabase(int courseId)
         if (course["course_id"] == courseId)
         {
             flag = 1;
-            return Course(course["course_id"], course["title"], course["teacher_id"]);
+            return Course(course["course_id"], course["title"], course["teacher_id"],
+                          course["capacity"], course["start_time"], course["vahed"]);
         }
     }
     if (flag)
         std::cout << "Course couldnt be found";
+}
+void Course::addAnnouncment(const std::string &Announcment)
+{
+    announcements.push_back(Announcment);
+    saveToDatabase();
+    std::cout << "Announcement added successfully!" << std::endl;
+    return;
+}
+void Course::addHomework(const std::string &Homework)
+{
+    homeworks.push_back(Homework);
+    saveToDatabase();
+    std::cout << "Homework added successfully!" << std::endl;
+    return;
 }
