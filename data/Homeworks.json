@@ -1,0 +1,9 @@
+{
+  "homeworks": [
+    {
+      "homework_id": 1,
+      "course_id": 1,
+      "homework": ["What is 2+2?", "What is gravity?"]
+    }
+  ]
+}

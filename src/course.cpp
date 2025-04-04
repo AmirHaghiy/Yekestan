@@ -4,8 +4,8 @@
 
 using json = nlohmann::json;
 
-Course::Course(int courseId, const std::string &title, int teacherId)
-    : courseId(courseId), title(title), teacherId(teacherId) {}
+Course::Course(int courseId, const std::string &title, int teacherId, int capacity, const std::string &startTime, int vahed)
+    : courseId(courseId), title(title), teacherId(teacherId), capacity(capacity), startTime(startTime), vahed(vahed), annoncments("") {}
 
 int Course::getCourseId() const
 {
@@ -19,7 +19,22 @@ int Course::getTeacherId() const
 {
     return teacherId;
 }
-
+std::string Course::getAnnouncments() const
+{
+    return annoncments;
+}
+int Course::getCapacity() const
+{
+    return capacity;
+}
+int Course::getVahed() const
+{
+    return vahed;
+}
+std::string Course::getStartTime() const
+{
+    return startTime;
+}
 void Course::saveToDatabase()
 {
     std::ifstream inputFile("../data/courses.json");
@@ -28,7 +43,11 @@ void Course::saveToDatabase()
     json newCourse = {
         {"course_id", courseId},
         {"title", title},
-        {"teacher_id", teacherId}};
+        {"teacher_id", teacherId},
+        {"capacity", capacity},
+        {"start_time", startTime},
+        {"vahed", vahed},
+        {"announcments", ""}};
 
     courses["courses"].push_back(newCourse);
 
@@ -52,7 +71,7 @@ Course Course::loadFromDatabase(int courseId)
         if (course["course_id"] == courseId)
         {
             flag = 1;
-            return Course(course["course_id"], course["title"], course["teacher_id"]);
+            return Course(course["course_id"], course["title"], course["teacher_id"], course["capacity"], course["start_time"], course["vahed"]);
         }
     }
     if (flag)
