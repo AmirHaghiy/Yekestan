@@ -5,11 +5,9 @@
 
 using json = nlohmann::json;
 
-// Constructor
 Teacher::Teacher(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "teacher"), teacherId(id) {}
 
-// Create a new course
 void Teacher::createCourse(const std::string &title)
 {
     std::ifstream inputFile("../data/courses.json");
@@ -55,7 +53,7 @@ void Teacher::assignTest(int courseId, const std::string &testName)
     std::cout << "Test assigned successfully!" << std::endl;
 }
 
-void Teacher::enterGrades(int studentId, int courseId, int grade)
+void Teacher::enterGrade(int studentId, int courseId, int grade)
 {
     std::ifstream inputFile("../data/grades.json");
     json grades;
@@ -74,4 +72,46 @@ void Teacher::enterGrades(int studentId, int courseId, int grade)
     outputFile.close();
 
     std::cout << "Grade entered successfully!" << std::endl;
+}
+void Teacher::viewEnrolledStuddents(int courseId)
+{
+    std::ifstream inputFile("../data/enrollments.json");
+    json enrollments;
+    inputFile >> enrollments;
+    inputFile.close();
+
+    std::ifstream inputFile2("../data/users.json");
+    json users;
+    inputFile2 >> users;
+    inputFile2.close();
+    std::cout << "students______________\n";
+
+    for (auto &enrolled : enrollments)
+    {
+        if (enrolled["course_id"] == courseId)
+        {
+            for (auto &user : users)
+            {
+                if (user["id"] == enrolled["student_id"])
+                {
+                    std::cout << user["name"] << "   " << user["id"] << std::endl;
+                }
+            }
+        }
+    }
+}
+void Teacher::addHomeworkGrades(int courseId, int studentId, int grade)
+{
+    std::ifstream inputFile("../data/grades.json");
+    json grades;
+    inputFile >> grades;
+    inputFile.close();
+
+    for (auto &grade : grades)
+    {
+        if (courseId == grade["course_id"] && studentId == grade["student_id"])
+        {
+            grade["score"] += grade;
+        }
+    }
 }
