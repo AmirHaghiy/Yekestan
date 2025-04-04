@@ -10,7 +10,6 @@ using json = nlohmann::json;
 Teacher::Teacher(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "teacher"), teacherId(id) {}
 
-// Create a new course
 void Teacher::createCourse(const std::string &title, int capacity, const std::string &startTime, const int &vahed)
 {
     std::ifstream inputFile("../data/courses.json");
@@ -90,10 +89,10 @@ void Teacher::enterGrade(int studentId, int courseId, int grade)
 
     json newGrade = {
         {"student_id", studentId},
-        {"homework_id", homeworkId},
-        {"grade", grade}};
+        {"course_id", courseId},
+        {"score", grade}};
 
-    grades["homeworks"].push_back(newGrade);
+    grades["grades"].push_back(newGrade);
 
     std::ofstream outputFile("../data/grades.json");
     outputFile << grades.dump(4);
