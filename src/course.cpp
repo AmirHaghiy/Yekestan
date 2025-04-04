@@ -4,10 +4,8 @@
 
 using json = nlohmann::json;
 
-Course::Course(int courseId, const std::string &title, int teacherId, int capacity,
-               const std::string &startTime, const int &vahed)
-    : courseId(courseId), title(title), teacherId(teacherId), capacity(capacity),
-      startTime(startTime), vahed(vahed), announcements(json::array()), homeworks(json::array()) {}
+Course::Course(int courseId, const std::string &title, int teacherId, int capacity, const std::string &startTime, int vahed)
+    : courseId(courseId), title(title), teacherId(teacherId), capacity(capacity), startTime(startTime), vahed(vahed), annoncments("") {}
 
 int Course::getCourseId() const
 {
@@ -21,6 +19,10 @@ int Course::getTeacherId() const
 {
     return teacherId;
 }
+std::string Course::getAnnouncments() const
+{
+    return annoncments;
+}
 int Course::getCapacity() const
 {
     return capacity;
@@ -33,15 +35,6 @@ std::string Course::getStartTime() const
 {
     return startTime;
 }
-json Course::getAnnouncments() const
-{
-    return announcements;
-}
-json Course::getHomeworks() const
-{
-    return homeworks;
-}
-
 void Course::saveToDatabase()
 {
     std::ifstream inputFile("../data/courses.json");
@@ -54,8 +47,7 @@ void Course::saveToDatabase()
         {"capacity", capacity},
         {"start_time", startTime},
         {"vahed", vahed},
-        {"announcments", announcements},
-        {"homeworks", homeworks}};
+        {"announcments", annoncments}};
 
     courses["courses"].push_back(newCourse);
 
@@ -79,24 +71,29 @@ Course Course::loadFromDatabase(int courseId)
         if (course["course_id"] == courseId)
         {
             flag = 1;
-            return Course(course["course_id"], course["title"], course["teacher_id"],
-                          course["capacity"], course["start_time"], course["vahed"]);
+            return Course(course["course_id"], course["title"], course["teacher_id"], course["capacity"], course["start_time"], course["vahed"]);
         }
     }
     if (flag)
         std::cout << "Course couldnt be found";
 }
-void Course::addAnnouncment(const std::string &Announcment)
+void Course::addAnnouncment(const std::string &Announcment, int courseId)
 {
-    announcements.push_back(Announcment);
+    std::ifstream inputFile("../data/courses.json");
+    json courses;
+    inputFile >> courses;
+    inputFile.close();
+    for (auto &course : courses)
+    {
+        if (courseId == course["course_id"])
+        {
+            std::string prevAnnouncements = course["announcments"];
+            std::string newAnnouncments = prevAnnouncements + ", " + Announcment;
+            course["announcments"] = newAnnouncments;
+        }
+    }
+
     saveToDatabase();
     std::cout << "Announcement added successfully!" << std::endl;
-    return;
-}
-void Course::addHomework(const std::string &Homework)
-{
-    homeworks.push_back(Homework);
-    saveToDatabase();
-    std::cout << "Homework added successfully!" << std::endl;
     return;
 }

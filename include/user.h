@@ -1,6 +1,8 @@
 #ifndef USER_H
 #define USER_H
 #include <string>
+#include "course.h"
+
 using namespace std;
 class User
 {
@@ -34,18 +36,28 @@ public:
     void viewInactiveUsers();
     void generateCourseReport();
 };
+
 class Teacher : public User
 {
 private:
     int teacherId;
 
 public:
+    // Constructor
     Teacher(int id, const std::string &name, const std::string &email, const std::string &password);
 
-    void createCourse(const std::string &title);
-    void assignTest(int courseId, const std::string &testName);
-    void enterGrades(int studentId, int courseId, int grade);
+    // Course management methods
+    void createCourse(const std::string &title, int capacity, const std::string &startTime, const int &vahed);
+    void updateCourse(int courseId, const int &teacherId, const std::string &title, int capacity, const std::string &startTime, const std::string &timing);
+
+    // Announcement methods
+    void addAnnouncementToCourse(int courseId, const std::string &announcement);
+
+    // Homework methods
+    void assignHomeworkToCourse(int courseId, const std::string &homework);
+    void enterGrades(int studentId, int homeworkId, int grade);
 };
+
 class Student : public User
 {
 private:

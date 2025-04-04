@@ -1,5 +1,6 @@
 {
   "courses": [
+<<<<<<< Updated upstream
       {
           "course_id": 1,
           "title": "Mathematics",
@@ -26,5 +27,23 @@
           ],
           "homeworks": []
       }
+=======
+    {
+      "course_id": 1,
+      "title": "Mathematics",
+      "teacher_id": 2,
+      "capacity": 10,
+      "start_time": "9:00 AM",
+      "vahed": 3
+    },
+    {
+      "course_id": 2,
+      "title": "Physics",
+      "teacher_id": 1,
+      "capacity": 11,
+      "start_time": "11:00 AM",
+      "vahed": 3
+    }
+>>>>>>> Stashed changes
   ]
 }
