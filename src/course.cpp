@@ -47,7 +47,7 @@ void Course::saveToDatabase()
         {"capacity", capacity},
         {"start_time", startTime},
         {"vahed", vahed},
-        {"announcments", ""}};
+        {"announcments", annoncments}};
 
     courses["courses"].push_back(newCourse);
 
@@ -76,4 +76,24 @@ Course Course::loadFromDatabase(int courseId)
     }
     if (flag)
         std::cout << "Course couldnt be found";
+}
+void Course::addAnnouncment(const std::string &Announcment, int courseId)
+{
+    std::ifstream inputFile("../data/courses.json");
+    json courses;
+    inputFile >> courses;
+    inputFile.close();
+    for (auto &course : courses)
+    {
+        if (courseId == course["course_id"])
+        {
+            std::string prevAnnouncements = course["announcments"];
+            std::string newAnnouncments = prevAnnouncements + ", " + Announcment;
+            course["announcments"] = newAnnouncments;
+        }
+    }
+
+    saveToDatabase();
+    std::cout << "Announcement added successfully!" << std::endl;
+    return;
 }

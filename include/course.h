@@ -26,6 +26,8 @@ public:
     int getVahed() const;
     std::string getAnnouncments() const;
 
+    void addAnnouncment(const std::string &Announcment, int courseId);
+
     void saveToDatabase();
     static Course loadFromDatabase(int courseId);
 };
