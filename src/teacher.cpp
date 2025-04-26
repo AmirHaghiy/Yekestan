@@ -10,11 +10,7 @@ using json = nlohmann::json;
 Teacher::Teacher(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "teacher"), teacherId(id) {}
 
-<<<<<<< HEAD
-void Teacher::createCourse(const std::string &title, int capacity, const std::string &startTime, const int &vahed)
-=======
 void Teacher::createCourse(const std::string &title, int capacity, std::string startTime, int vahed)
->>>>>>> task/implement-classes
 {
     std::ifstream inputFile("../data/courses.json");
     json courses;
@@ -28,18 +24,12 @@ void Teacher::createCourse(const std::string &title, int capacity, std::string s
         {"title", title},
         {"teacher_id", teacherId},
         {"capacity", capacity},
-<<<<<<< HEAD
-        {"start_time", startTime},
-        {"vahed", vahed},
-        {"announcments", ""}};
-=======
         {"enrolled", 0},
         {"start_time", startTime},
         {"vahed", vahed}
     
     
     };
->>>>>>> task/implement-classes
 
     courses["courses"].push_back(newCourse);
 
@@ -49,54 +39,8 @@ void Teacher::createCourse(const std::string &title, int capacity, std::string s
 
     std::cout << "Course created successfully!" << std::endl;
 }
-<<<<<<< HEAD
-void updateCourse(int courseId, const int &teacherId, const std::string &title, int capacity, const std::string &startTime, const int &vahed)
-{
-    std::ifstream inputFile("../data/courses.json");
-    json course;
-    inputFile >> course;
-    inputFile.close();
-
-    for (auto &eachCourse : course)
-    {
-        if (courseId == eachCourse["course_id"])
-        {
-            eachCourse["title"] = title;
-            eachCourse["teacher_id"] = teacherId;
-            eachCourse["capacity"] = capacity;
-            eachCourse["start_time"] = startTime;
-            eachCourse["vahed"] = vahed;
-            return;
-        }
-    }
-    std::cout << "Course didnt find\n";
-}
-
-void Teacher::assignHomeworkToCourse(int courseId, const std::string &Homework)
-{
-    std::ifstream inputFile("../data/homeworks.json");
-    json tests;
-    inputFile >> tests;
-    inputFile.close();
-
-    int homeworkId = tests["homeworks"].size() + 1;
-    json newHomework = {
-        {"homework_id", homeworkId},
-        {"course_id", courseId},
-        {"homework", Homework}};
-
-    tests["homeworks"].push_back(newHomework);
-
-    std::ofstream outputFile("../data/tests.json");
-    outputFile << tests.dump(4);
-    outputFile.close();
-
-    std::cout << "Homework assigned successfully!" << std::endl;
-}
-=======
 
 
->>>>>>> task/implement-classes
 
 void Teacher::enterGrade(int studentId, int courseId, int grade)
 {
@@ -118,31 +62,7 @@ void Teacher::enterGrade(int studentId, int courseId, int grade)
 
     std::cout << "Grade entered successfully!" << std::endl;
 }
-<<<<<<< HEAD
-void Teacher::addAnnouncementToCourse(int courseId, const std::string &announcment)
-{
-    std::ifstream inputFile("../data/courses");
-    json courses;
-    inputFile >> courses;
-    inputFile.close();
-
-    for (auto &course : courses)
-    {
-        if (courseId == course["course_id"])
-        {
-            std::string prev_announces = course["announcments"];
-            std::string new_announces = prev_announces + ", " + announcment;
-            course["announcment"] = new_announces;
-            return;
-        }
-    }
-    std::cout << "didnt find course\n";
-    return;
-}
-void Teacher::viewEnrolledStuddents(int courseId)
-=======
 void Teacher::viewEnrolledStudents(int courseId)
->>>>>>> task/implement-classes
 {
     std::ifstream inputFile("../data/enrollments.json");
     json enrollments;

@@ -1,38 +1,11 @@
 {
   "courses": [
-<<<<<<< Updated upstream
-      {
-          "course_id": 1,
-          "title": "Mathematics",
-          "teacher_id": 2,
-          "capacity": 30,
-          "start_time": "09:00 AM",
-          "vahed": 3,
-          "announcements": [
-              "Welcome to the Mathematics course!",
-              "The first test will be on Friday."
-          ],
-          "homeworks": []
-      },
-      {
-          "course_id": 2,
-          "title": "Physics",
-          "teacher_id": 3,
-          "capacity": 25,
-          "start_time": "11:00 AM",
-          "vahed": 3,
-          "announcements": [
-              "Physics lab sessions start next week.",
-              "Assignment 1 deadline extended to Friday."
-          ],
-          "homeworks": []
-      }
-=======
     {
       "course_id": 1,
       "title": "Mathematics",
       "teacher_id": 2,
       "capacity": 10,
+      "enrolled": 5,
       "start_time": "9:00 AM",
       "vahed": 3
     },
@@ -41,9 +14,9 @@
       "title": "Physics",
       "teacher_id": 1,
       "capacity": 11,
+      "enrolled": 5,
       "start_time": "11:00 AM",
       "vahed": 3
     }
->>>>>>> Stashed changes
   ]
 }
