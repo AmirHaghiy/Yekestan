@@ -34,6 +34,8 @@ public:
     void deleteUser(int userId);
 
     void viewInactiveUsers();
+    void restorUser(int userId);
+    void restorAllUsers();
     void generateCourseReport();
 };
 
@@ -46,16 +48,14 @@ public:
     // Constructor
     Teacher(int id, const std::string &name, const std::string &email, const std::string &password);
 
-    // Course management methods
-    void createCourse(const std::string &title, int capacity, const std::string &startTime, const int &vahed);
-    void updateCourse(int courseId, const int &teacherId, const std::string &title, int capacity, const std::string &startTime, const std::string &timing);
+    void createCourse(const std::string &title, int capacity, std::string startTime, int vahed);
+    void enterGrade(int , int , int);
+    void viewEnrolledStudents(int);
+    void addHomework(int, std::string);
+    void addHomeworkGrades(int,int, int , int);
+    void addAnnouncment(int, std::string);
 
-    // Announcement methods
-    void addAnnouncementToCourse(int courseId, const std::string &announcement);
 
-    // Homework methods
-    void assignHomeworkToCourse(int courseId, const std::string &homework);
-    void enterGrades(int studentId, int homeworkId, int grade);
 };
 
 class Student : public User
@@ -66,9 +66,12 @@ private:
 public:
     Student(int id, const std::string &name, const std::string &email, const std::string &password);
 
+    void viewEnrolledCourses();
+    void viewAvailableCourses();
+    void courseInfo(int courseId);
+    void viewHomeworksGrades();
+    void giveGradeToCourse(int courseId, int grade);
     void enrollInCourse(int courseId);
-    void takeTest(int testId);
-    void viewGrades();
 };
 
 #endif

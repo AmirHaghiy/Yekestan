@@ -1,0 +1,15 @@
+{
+    "grades": [
+      {
+        "student_id": 1,
+        "course_id": 1,
+        "score": 90
+      },
+      {
+        "student_id": 1,
+        "course_id": 2,
+        "score": 85
+      }
+    ]
+  }
+  
