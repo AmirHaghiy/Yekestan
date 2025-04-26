@@ -181,6 +181,11 @@ void Admin::generateCourseReport()
 
     userFile >> users;
     userFile.close();
+    std::ifstream courseGradeFile("../data/coursesGrades.json");
+    json coursesGrades;
+
+    courseGradeFile >> coursesGrades;
+    courseGradeFile.close();
 
     std::cout << "Course Report:\n";
     for (const auto &course : courses["courses"])
@@ -216,14 +221,30 @@ void Admin::generateCourseReport()
                 }
             }
         }
+        //s
+        double sumCourseGrades = 0;
+        int studentCountCourse = 0;
+        for (const auto &courseGrade : coursesGrades["enrollments"])
+        {
+            if (courseGrade["course_id"] == courseId)
+            {
+                sumCourseGrades+= courseGrade["score"];
+                studentCountCourse++;
+            }
+        }
+        
+
 
         double averageGrade = studentCount > 0 ? sumGrades / studentCount : 0.0;
+        double averageCourseGrade = studentCountCourse > 0 ? sumCourseGrades / studentCountCourse : 0.0;
+
 
         // Print the course details
         std::cout << "Course ID: " << courseId << "\n"
                   << "Title: " << courseTitle << "\n"
                   << "Teacher: " << teacherName << "\n"
-                  << "Average Grade: " << std::fixed << std::setprecision(2) << averageGrade << "\n"
+                  << "Average Grade for students: " << std::fixed << std::setprecision(2) << averageGrade << "\n"
+                  << "Average course grade from students: " << std::fixed << std::setprecision(2) << averageCourseGrade << "\n"
                   << "-----------------------------\n";
     }
 }
