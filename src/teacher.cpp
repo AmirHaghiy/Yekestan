@@ -8,7 +8,7 @@ using json = nlohmann::json;
 Teacher::Teacher(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "teacher"), teacherId(id) {}
 
-void Teacher::createCourse(const std::string &title)
+void Teacher::createCourse(const std::string &title, int capacity, std::string startTime, int vahed)
 {
     std::ifstream inputFile("../data/courses.json");
     json courses;
@@ -20,7 +20,13 @@ void Teacher::createCourse(const std::string &title)
     json newCourse = {
         {"course_id", courseId},
         {"title", title},
-        {"teacher_id", teacherId}};
+        {"teacher_id", teacherId},
+        {"capacity", capacity},
+        {"start_time", startTime},
+        {"vahed", vahed}
+    
+    
+    };
 
     courses["courses"].push_back(newCourse);
 
@@ -31,27 +37,7 @@ void Teacher::createCourse(const std::string &title)
     std::cout << "Course created successfully!" << std::endl;
 }
 
-void Teacher::assignTest(int courseId, const std::string &testName)
-{
-    std::ifstream inputFile("../data/tests.json");
-    json tests;
-    inputFile >> tests;
-    inputFile.close();
 
-    int testId = tests["tests"].size() + 1;
-    json newTest = {
-        {"test_id", testId},
-        {"course_id", courseId},
-        {"test_name", testName}};
-
-    tests["tests"].push_back(newTest);
-
-    std::ofstream outputFile("../data/tests.json");
-    outputFile << tests.dump(4);
-    outputFile.close();
-
-    std::cout << "Test assigned successfully!" << std::endl;
-}
 
 void Teacher::enterGrade(int studentId, int courseId, int grade)
 {
@@ -73,7 +59,7 @@ void Teacher::enterGrade(int studentId, int courseId, int grade)
 
     std::cout << "Grade entered successfully!" << std::endl;
 }
-void Teacher::viewEnrolledStuddents(int courseId)
+void Teacher::viewEnrolledStudents(int courseId)
 {
     std::ifstream inputFile("../data/enrollments.json");
     json enrollments;
@@ -100,18 +86,23 @@ void Teacher::viewEnrolledStuddents(int courseId)
         }
     }
 }
-void Teacher::addHomeworkGrades(int courseId, int studentId, int grade)
+void Teacher::addHomeworkGrades(int homeworkId, int studentId, int grade)
 {
-    std::ifstream inputFile("../data/grades.json");
+    std::ifstream inputFile("../data/HomeworkGrades.json");
     json grades;
     inputFile >> grades;
     inputFile.close();
 
-    for (auto &grade : grades)
-    {
-        if (courseId == grade["course_id"] && studentId == grade["student_id"])
-        {
-            grade["score"] += grade;
-        }
-    }
+    json newGrade = {
+        {"homework_id", homeworkId},
+        {"student_id", studentId},
+        {"grade", grade}};
+
+    grades["grades"].push_back(newGrade);
+
+    std::ofstream outputFile("../data/HomeworkGrades.json");
+    outputFile << grades.dump(4);
+    outputFile.close();
+
+    std::cout << "Homework grade entered successfully!" << std::endl;
 }

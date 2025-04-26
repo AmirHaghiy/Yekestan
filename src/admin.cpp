@@ -154,8 +154,6 @@ void Admin::viewInactiveUsers()
     {
         std::cout << "No inactive users found." << std::endl;
     }
-<<<<<<< Updated upstream
-=======
 }
 
 void Admin::generateCourseReport()
@@ -254,5 +252,4 @@ void Admin::restorAllUsers(){
         }
     }
     cout<< "Users restored successfully\n";
->>>>>>> Stashed changes
 }

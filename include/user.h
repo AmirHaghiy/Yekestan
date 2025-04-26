@@ -32,12 +32,9 @@ public:
     void deleteUser(int userId);
 
     void viewInactiveUsers();
-<<<<<<< Updated upstream
-=======
     void restorUser(int userId);
     void restorAllUsers();
     void generateCourseReport();
->>>>>>> Stashed changes
 };
 class Teacher : public User
 {
