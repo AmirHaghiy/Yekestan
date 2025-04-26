@@ -22,6 +22,7 @@ void Teacher::createCourse(const std::string &title, int capacity, std::string s
         {"title", title},
         {"teacher_id", teacherId},
         {"capacity", capacity},
+        {"enrolled", 0},
         {"start_time", startTime},
         {"vahed", vahed}
     
@@ -86,7 +87,7 @@ void Teacher::viewEnrolledStudents(int courseId)
         }
     }
 }
-void Teacher::addHomeworkGrades(int homeworkId, int studentId, int grade)
+void Teacher::addHomeworkGrades(int homeworkId, int courseId, int studentId, int grade)
 {
     std::ifstream inputFile("../data/HomeworkGrades.json");
     json grades;
@@ -94,6 +95,7 @@ void Teacher::addHomeworkGrades(int homeworkId, int studentId, int grade)
     inputFile.close();
 
     json newGrade = {
+        {"course_id" , courseId},
         {"homework_id", homeworkId},
         {"student_id", studentId},
         {"grade", grade}};
@@ -105,4 +107,37 @@ void Teacher::addHomeworkGrades(int homeworkId, int studentId, int grade)
     outputFile.close();
 
     std::cout << "Homework grade entered successfully!" << std::endl;
+}
+void Teacher::addAnnouncment(int courseId, std::string announcment){
+    std::ifstream inputFile("../data/announcments.json");
+    json announcments;
+    inputFile >> announcments;
+    inputFile.close();
+
+    for(auto &announcment1 : announcments){
+        if(announcment1["course_id"] == courseId){
+            announcment1["announcments"] += announcment;
+        }
+    }
+    std::cout << "Announcment added successfully";
+}
+void Teacher::addHomework(int courseId, std::string homework){
+    std::ifstream inputFile("../data/Homeworks.json");
+    json homeworks;
+    inputFile >> homeworks;
+    inputFile.close();
+
+    int homeworkId = homeworks["homeworks"].size() + 1;
+    json newHomework = {
+        {"homework_id", homeworkId},
+        {"course_id", courseId},
+        {"homework", homework}
+    };
+    homeworks["homeworks"].push_back(newHomework);
+
+    std::ofstream outputFile("../data/Homeworks.json");
+    outputFile << homeworks.dump(4);
+    outputFile.close();
+
+    std::cout << "Homework  addeds successfully!" << std::endl;
 }

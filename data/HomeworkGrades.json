@@ -1,7 +1,9 @@
 {
     "homeworkGrades": [
       {
+        "course_id" : 1, 
         "homework_id": 1,
+        "student_id": 1,
         "grade": 1
       }
     ]

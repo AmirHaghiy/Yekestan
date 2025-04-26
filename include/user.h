@@ -44,9 +44,14 @@ private:
 public:
     Teacher(int id, const std::string &name, const std::string &email, const std::string &password);
 
-    void createCourse(const std::string &title);
-    void assignTest(int courseId, const std::string &testName);
-    void enterGrades(int studentId, int courseId, int grade);
+    void createCourse(const std::string &title, int capacity, std::string startTime, int vahed);
+    void enterGrade(int , int , int);
+    void viewEnrolledStudents(int);
+    void addHomework(int, std::string);
+    void addHomeworkGrades(int,int, int , int);
+    void addAnnouncment(int, std::string);
+
+
 };
 class Student : public User
 {
@@ -56,9 +61,12 @@ private:
 public:
     Student(int id, const std::string &name, const std::string &email, const std::string &password);
 
+    void viewEnrolledCourses();
+    void viewAvailableCourses();
+    void courseInfo(int courseId);
+    void viewHomeworksGrades();
+    void giveGradeToCourse(int courseId, int grade);
     void enrollInCourse(int courseId);
-    void takeTest(int testId);
-    void viewGrades();
 };
 
 #endif
