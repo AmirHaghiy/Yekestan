@@ -12,7 +12,28 @@ using json = nlohmann::json;
 Admin::Admin(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "admin")
 {
-    std::cout << "Admin created: " << name << std::endl;
+   // std::cout << "Admin created: " << name << std::endl;
+   std::ifstream inputFile("../data/users.json");
+    json users;
+
+    inputFile >> users;
+    inputFile.close();
+
+    int userId = users["users"].size() + 1;
+    json newUser = {
+        {"id", userId},
+        {"name", name},
+        {"email", email},
+        {"password", password},
+        {"role", role},
+        {"status", "active"}};
+    
+    users["users"].push_back(newUser);
+
+    std::ofstream outputFile("../data/users.json");
+    outputFile << users.dump(4);
+    outputFile.close();
+
 }
 
 void Admin::createUser(const std::string &name, const std::string &email, const std::string &password, const std::string &role)
@@ -41,7 +62,7 @@ void Admin::createUser(const std::string &name, const std::string &email, const 
     std::cout << "User created successfully!" << std::endl;
 }
 
-void Admin::viewUser(int userId)
+void Admin::viewUser(string name)
 {
     std::ifstream inputFile("../data/users.json");
     json users;
@@ -50,7 +71,7 @@ void Admin::viewUser(int userId)
 
     for (const auto &user : users["users"])
     {
-        if (user["id"] == userId && user["status"] == "active")
+        if (user["name"] == name && user["status"] == "active")
         {
             std::cout << "ID: " << user["id"] << "\n"
                       << "Name: " << user["name"] << "\n"
@@ -61,7 +82,7 @@ void Admin::viewUser(int userId)
         }
     }
 
-    std::cout << "User with ID " << userId << " not found or is inactive." << std::endl;
+    std::cout << "User with NAME " << name << " not found or is inactive." << std::endl;
 }
 
 void Admin::updateUser(int userId, const std::string &name, const std::string &email, const std::string &role)
@@ -118,7 +139,7 @@ void Admin::deleteUser(int userId)
 
     if (deleted)
     {
-        std::ofstream outputFile("data/users.json");
+        std::ofstream outputFile("../data/users.json");  // Fixed path here
         outputFile << users.dump(4);
         outputFile.close();
 
@@ -158,122 +179,156 @@ void Admin::viewInactiveUsers()
         std::cout << "No inactive users found." << std::endl;
     }
 }
-
-void Admin::generateCourseReport()
-{
+void Admin::generateCourseReport() {
     std::ifstream courseFile("../data/courses.json");
-    json courses;
-
-    courseFile >> courses;
-    courseFile.close();
-
-    std::ifstream enrollmentFile("../data/enrollments.json");
-    json enrollments;
-
-    enrollmentFile >> enrollments;
-    enrollmentFile.close();
-
-    std::ifstream gradeFile("../data/grades.json");
-    json grades;
-
-    gradeFile >> grades;
-    gradeFile.close();
-
+    std::ifstream gradeFile("../data/grades.json");      // Grades given by teachers to students
+    std::ifstream courseGradeFile("../data/coursesGrades.json");  // Ratings given by students to courses
     std::ifstream userFile("../data/users.json");
-    json users;
+    
+    json courses, grades, coursesGrades, users;
 
-    userFile >> users;
-    userFile.close();
-    std::ifstream courseGradeFile("../data/coursesGrades.json");
-    json coursesGrades;
+    try {
+        courseFile >> courses;
+        gradeFile >> grades;
+        userFile >> users;
+        courseGradeFile >> coursesGrades;
 
-    courseGradeFile >> coursesGrades;
-    courseGradeFile.close();
+        std::cout << "Course Report:\n";
+        for (const auto &course : courses["courses"]) {
+            int courseId = course["course_id"];
+            std::string courseTitle = course["title"];
+            int teacherId = course["teacher_id"];
 
-    std::cout << "Course Report:\n";
-    for (const auto &course : courses["courses"])
-    {
-        int courseId = course["course_id"];
-        std::string courseTitle = course["title"];
-        int teacherId = course["teacher_id"];
-
-        std::string teacherName = "Unknown Teacher";
-        for (const auto &user : users["users"])
-        {
-            if (user["id"] == teacherId && user["role"] == "teacher")
-            {
-                teacherName = user["name"];
-                break;
+            // Find teacher name
+            std::string teacherName = "Unknown Teacher";
+            for (const auto &user : users["users"]) {
+                if (user["id"] == teacherId && user["role"] == "teacher") {
+                    teacherName = user["name"];
+                    break;
+                }
             }
-        }
 
-        double sumGrades = 0;
-        int studentCount = 0;
-        for (const auto &enrollment : enrollments["enrollments"])
-        {
-            if (enrollment["course_id"] == courseId)
-            {
-                int studentId = enrollment["student_id"];
-                for (const auto &grade : grades["grades"])
-                {
-                    if (grade["student_id"] == studentId && grade["course_id"] == courseId)
-                    {
-                        sumGrades += grade["grade"];
-                        studentCount++;
+            // Calculate student grades (given by teacher)
+            double sumStudentGrades = 0;
+            int studentCount = 0;
+            for (const auto &grade : grades["grades"]) {
+                if (grade["course_id"] == courseId) {
+                    sumStudentGrades += grade["grade"].get<int>();
+                    studentCount++;
+                }
+            }
+
+            // Calculate course ratings (given by students)
+            double sumCourseRatings = 0;
+            int ratingCount = 0;
+            if (coursesGrades.contains("courseGrades")) {
+                for (const auto &rating : coursesGrades["courseGrades"]) {
+                    if (rating["course_id"] == courseId) {
+                        sumCourseRatings += rating["score"].get<int>();
+                        ratingCount++;
                     }
                 }
             }
+
+            double averageStudentGrade = studentCount > 0 ? sumStudentGrades / studentCount : 0.0;
+            double averageCourseRating = ratingCount > 0 ? sumCourseRatings / ratingCount : 0.0;
+
+            // Print the course details
+            std::cout << "Course ID: " << courseId << "\n"
+                     << "Title: " << courseTitle << "\n"
+                     << "Teacher: " << teacherName << "\n"
+                     << "Average Student Grade: " << std::fixed << std::setprecision(2) 
+                     << averageStudentGrade << "\n"
+                     << "Average Course Rating: " << std::fixed << std::setprecision(2) 
+                     << averageCourseRating << "\n"
+                     << "-----------------------------\n";
         }
-        //s
-        double sumCourseGrades = 0;
-        int studentCountCourse = 0;
-        for (const auto &courseGrade : coursesGrades["enrollments"])
-        {
-            if (courseGrade["course_id"] == courseId)
-            {
-                sumCourseGrades+= courseGrade["score"];
-                studentCountCourse++;
-            }
-        }
-        
-
-
-        double averageGrade = studentCount > 0 ? sumGrades / studentCount : 0.0;
-        double averageCourseGrade = studentCountCourse > 0 ? sumCourseGrades / studentCountCourse : 0.0;
-
-
-        // Print the course details
-        std::cout << "Course ID: " << courseId << "\n"
-                  << "Title: " << courseTitle << "\n"
-                  << "Teacher: " << teacherName << "\n"
-                  << "Average Grade for students: " << std::fixed << std::setprecision(2) << averageGrade << "\n"
-                  << "Average course grade from students: " << std::fixed << std::setprecision(2) << averageCourseGrade << "\n"
-                  << "-----------------------------\n";
     }
+    catch (const json::exception& e) {
+        std::cerr << "JSON error: " << e.what() << std::endl;
+    }
+
+    courseFile.close();
+    gradeFile.close();
+    userFile.close();
+    courseGradeFile.close();
 }
-void Admin::restorUser(int userId){
-    std::ifstream usersFile("../data/courses.json");
+
+void Admin::restorUser(int userId) {
+    std::ifstream usersFile("../data/users.json");
     json users;
 
     usersFile >> users;
     usersFile.close();
-    for(auto &user: users){
-        if(user["id"] == userId){
+
+    bool restored = false;
+    for(auto &user : users["users"]) {  // Access the "users" array
+        if(user["id"] == userId && user["status"] == "inactive") {
             user["status"] = "active";
+            restored = true;
+            break;
         }
     }
-    cout<< "User restored successfully\n";
+
+    if(restored) {
+        std::ofstream outputFile("../data/users.json"); // Fixed file extension
+        outputFile << users.dump(4);
+        outputFile.close();
+        std::cout << "User restored successfully\n";
+    } else {
+        std::cout << "User with ID " << userId << " not found or already active\n";
+    }
 }
-void Admin::restorAllUsers(){
-    std::ifstream usersFile("../data/courses.json");
+
+void Admin::restorAllUsers() {
+    std::ifstream usersFile("../data/users.json");  // Changed from courses.json to users.json
     json users;
 
     usersFile >> users;
     usersFile.close();
-    for(auto &user: users){
-        if(user["status"] == "inactive"){
+
+    bool restored = false;
+    for (auto &user : users["users"]) {  // Access the "users" array in the JSON
+        if (user["status"] == "inactive") {
             user["status"] = "active";
+            restored = true;
         }
     }
-    cout<< "Users restored successfully\n";
+
+    if (restored) {
+        std::ofstream outputFile("../data/users.json");
+        outputFile << users.dump(4);
+        outputFile.close();
+        std::cout << "All users restored successfully\n";
+    } else {
+        std::cout << "No inactive users found\n";
+    }
+}
+
+void Admin::createCourse(const std::string &title, int teacherId, int capacity, 
+                        const std::string &startTime, int vahed) {
+    std::ifstream inputFile("../data/courses.json");
+    json courses;
+    
+    inputFile >> courses;
+    inputFile.close();
+
+    int courseId = courses["courses"].size() + 1;
+    json newCourse = {
+        {"course_id", courseId},
+        {"title", title},
+        {"teacher_id", teacherId},
+        {"capacity", capacity},
+        {"enrolled", 0},  // New courses start with 0 enrolled students
+        {"start_time", startTime},
+        {"vahed", vahed}
+    };
+
+    courses["courses"].push_back(newCourse);
+
+    std::ofstream outputFile("../data/courses.json");
+    outputFile << courses.dump(4);
+    outputFile.close();
+
+    std::cout << "Course created successfully!" << std::endl;
 }

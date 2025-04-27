@@ -1,11 +1,28 @@
 {
-    "homeworkGrades": [
-      {
-        "course_id" : 1, 
-        "homework_id": 1,
-        "student_id": 1,
-        "grade": 1
-      }
-    ]
-  }
-  
+  "homeworkGrades": [
+    {
+      "course_id": 1,
+      "homework_id": 1,
+      "student_id": 3,
+      "grade": 18
+    },
+    {
+      "course_id": 1,
+      "homework_id": 2,
+      "student_id": 3,
+      "grade": 19
+    },
+    {
+      "course_id": 2,
+      "homework_id": 1,
+      "student_id": 3,
+      "grade": 17
+    },
+    {
+      "course_id": 2,
+      "homework_id": 2,
+      "student_id": 4,
+      "grade": 16
+    }
+  ]
+}

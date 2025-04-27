@@ -1,20 +1,84 @@
 {
-  "users": [
-      {
-          "id": 1,
-          "name": "John Doe",
-          "email": "john@example.com",
-          "password": "hashed_password",
-          "role": "student",
-          "status": "active"
-      },
-      {
-          "id": 2,
-          "name": "Jane Smith",
-          "email": "jane@example.com",
-          "password": "hashed_password",
-          "role": "admin",
-          "status": "active"
-      }
-  ]
+    "users": [
+        {
+            "email": "admin@yekestan.ir",
+            "id": 1,
+            "name": "Admin User",
+            "password": "admin123",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "smith@yekestan.ir",
+            "id": 2,
+            "name": "Dr. Smith",
+            "password": "smith123",
+            "role": "teacher",
+            "status": "active"
+        },
+        {
+            "email": "sarah@yekestan.ir",
+            "id": 3,
+            "name": "Sarah Johnson",
+            "password": "sarah123",
+            "role": "student",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 4,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "1",
+            "id": 5,
+            "name": "amir",
+            "password": "1234",
+            "role": "student",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 6,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 7,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 8,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 9,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "amir@gmail.com",
+            "id": 10,
+            "name": "amir",
+            "password": "1234",
+            "role": "student",
+            "status": "active"
+        }
+    ]
 }

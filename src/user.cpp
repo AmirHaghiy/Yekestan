@@ -33,35 +33,30 @@ string User::getRole() const
     return role;
 }
 
-void User::login(const std::string &email, const std::string &password)
+std::string User::login(const std::string &email, const std::string &password, int &loggedIn)
 {
     std::ifstream inputFile("../data/users.json");
-
     json users;
     inputFile >> users;
     inputFile.close();
-    bool isAuthenticated = false;
+    
     for (const auto &user : users["users"])
     {
         if (user["email"] == email && user["password"] == password)
         {
-            isAuthenticated = true;
             std::cout << "User " << user["name"] << " logged in successfully!" << std::endl;
-            break;
+            loggedIn = 1;
+            return user["role"];
         }
     }
-    if (!isAuthenticated)
-    {
-        std::cout << "Invalid email or password." << std::endl;
-    }
-    else
-    {
-        std::cout << "logged in successfully";
-    }
+    
+    std::cout << "Invalid email or password." << std::endl;
+    return "";  // Add default return value for failed login
 }
 int User::logout()
 {
-    std::cout << "User logged out successfully"; // need to be done later
+    system("cls");  // Clear terminal on Windows
+    std::cout << "User logged out successfully!" << std::endl;
     return 1;
 }
 void User::changePassword(const std::string &oldPassword, const std::string &newPassword)

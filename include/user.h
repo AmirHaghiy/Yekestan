@@ -19,7 +19,7 @@ public:
     std::string getName() const;
     std::string getEmail() const;
     std::string getRole() const;
-    void login(const std::string &email, const std::string &password);
+    static std::string login(const std::string &email, const std::string &password, int&);
     int logout();
     void changePassword(const std::string &oldPassword, const std::string &newPassword);
 };
@@ -29,9 +29,12 @@ public:
     Admin(int id, const std::string &name, const std::string &email, const std::string &password);
 
     void createUser(const std::string &name, const std::string &email, const std::string &password, const std::string &role);
-    void viewUser(int userId);
+    void viewUser(string name);
     void updateUser(int userId, const std::string &name, const std::string &email, const std::string &role);
     void deleteUser(int userId);
+
+    void createCourse(const std::string &title, int teacherId, int capacity, 
+                     const std::string &startTime, int vahed);
 
     void viewInactiveUsers();
     void restorUser(int userId);

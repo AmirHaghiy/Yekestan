@@ -2,21 +2,30 @@
   "courses": [
     {
       "course_id": 1,
-      "title": "Mathematics",
+      "title": "Advanced Programming",
       "teacher_id": 2,
-      "capacity": 10,
-      "enrolled": 5,
+      "capacity": 30,
+      "enrolled": 25,
       "start_time": "9:00 AM",
       "vahed": 3
     },
     {
       "course_id": 2,
-      "title": "Physics",
-      "teacher_id": 1,
-      "capacity": 11,
-      "enrolled": 5,
-      "start_time": "11:00 AM",
+      "title": "Data Structures",
+      "teacher_id": 3,
+      "capacity": 25,
+      "enrolled": 20,
+      "start_time": "2:00 PM",
       "vahed": 3
+    },
+    {
+      "course_id": 3,
+      "title": "Artificial Intelligence",
+      "teacher_id": 4,
+      "capacity": 35,
+      "enrolled": 30,
+      "start_time": "11:00 AM",
+      "vahed": 4
     }
   ]
 }
