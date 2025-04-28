@@ -1,0 +1,25 @@
+{
+    "submissions": [
+        {
+            "course_id": 1,
+            "homework_id": 1,
+            "student_id": 3,
+            "submission": "Here is my solution for the linked list implementation",
+            "submitted_at": "2025-04-28"
+        },
+        {
+            "course_id": 2,
+            "homework_id": 1,
+            "student_id": 3,
+            "submission": "Binary tree implementation completed",
+            "submitted_at": "2025-04-28"
+        },
+        {
+            "course_id": 2,
+            "homework_id": 1,
+            "student_id": 10,
+            "submission": "a,ddvhdjks",
+            "submitted_at": "2025-04-28"
+        }
+    ]
+}

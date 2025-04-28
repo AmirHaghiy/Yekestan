@@ -82,6 +82,8 @@ public:
     void viewHomeworksGrades();
     void giveGradeToCourse(int courseId, int grade);
     void enrollInCourse(int courseId);
+    void viewHomeworks();
+    void submitHomework(int courseId, int homeworkId, const string& submission);
 
 private:
     int studentId;

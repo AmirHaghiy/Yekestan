@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <limits>
+#include <windows.h>
 #include "../include/course.h"
 #include "../include/enrollment.h"
 #include "../include/grade.h"
@@ -7,23 +9,55 @@
 #include "../include/user.h"
 
 using namespace std;
+
+// Color constants for Telegram theme
+#define COLOR_WHITE 15    // Bright white
+#define COLOR_GRAY 8     // Gray
+#define COLOR_BLUE 9     // Blue
+#define COLOR_LIGHTBLUE 11 // Light blue
+#define COLOR_DEFAULT 7  // Light gray (default)
+
+void setColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void printBanner(const string& text) {
+    setColor(COLOR_LIGHTBLUE);
+    cout << "\n+=" << string(44, '=') << "=+" << endl;
+    cout << "| " << string(21, ' ') << text << string(21 - text.length(), ' ') << " |" << endl;
+    cout << "+=" << string(44, '=') << "=+\n" << endl;
+    setColor(COLOR_DEFAULT);
+}
+
+void printSubBanner(const string& text) {
+    setColor(COLOR_LIGHTBLUE);
+    cout << "\n+-" << string(48, '-') << "-+" << endl;
+    cout << "| " << string(21, ' ') << text << string(21 - text.length(), ' ') << " |" << endl;
+    cout << "+-" << string(48, '-') << "-+\n" << endl;
+    setColor(COLOR_DEFAULT);
+}
+
 void displayAdminMenu(Admin admin);
 void displayStudentMenu(Student student);
-
 void displayTeacherMenu(Teacher teacher);
+int getValidInput(int min, int max);
 
 int main() {
-  //  static Admin admin(1, "admin", "admin@gmail.com", "admin");
     string userRole;
     bool running = true;
     
     while(running) {
         system("cls");
-        cout << "=== Welcome to Yekestan Learning Management System ===" << endl;
+        printBanner("Welcome to Yekestan ");
         cout << "Please login to continue" << endl;
-        cout << "Enter your Email: ";
+        cout << "Enter your Email (or 'exit' to quit): ";
         string email;
         cin >> email;
+        
+        if(email == "exit") {
+            break;
+        }
+        
         cout << "Enter your PASSWORD: ";
         string password;
         cin >> password;
@@ -64,8 +98,20 @@ int main() {
     return 0;
 }
 
+int getValidInput(int min, int max) {
+    int choice;
+    while(!(cin >> choice) || choice < min || choice > max) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid input. Please enter a number between " << min << " and " << max << ": ";
+    }
+    return choice;
+}
+
 void displayAdminMenu(Admin admin) {
     while(true) {
+        system("cls");
+        printBanner("Admin Dashboard");
         cout << "\n=== Admin Menu ===" << endl;
         cout << "1. Create User" << endl;
         cout << "2. Read User" << endl;
@@ -77,8 +123,7 @@ void displayAdminMenu(Admin admin) {
         cout << "8. Logout" << endl;
         cout << "Enter your choice: ";
         
-        int choice;
-        cin >> choice;
+        int choice = getValidInput(1, 8);
         
         string name, email, password, role;
         int userId;
@@ -94,60 +139,72 @@ void displayAdminMenu(Admin admin) {
                 cout << "\nEnter role for user: ";
                 cin >> role;
                 admin.createUser(name, email, password, role);
+                system("pause");
                 break;
 
             case 2:
                 cout << "Enter the name of user you want to read: ";
                 cin >> name;
                 admin.viewUser(name);
+                system("pause");
                 break;
 
-            case 3:
+            case 3: {
                 cout << "Enter user ID to update: ";
-                cin >> userId;
+                int userId = getValidInput(1, 999);
+                cin.ignore();
                 cout << "Enter new name: ";
-                cin >> name;
+                getline(cin, name);
                 cout << "Enter new email: ";
-                cin >> email;
-                cout << "Enter new role: ";
-                cin >> role;
+                getline(cin, email);
+                cout << "Enter new role (admin/teacher/student): ";
+                getline(cin, role);
                 admin.updateUser(userId, name, email, role);
+                system("pause");
                 break;
+            }
 
             case 4:
                 cout << "Enter user ID to delete: ";
-                cin >> userId;
+                userId = getValidInput(1, 999);
                 admin.deleteUser(userId);
+                system("pause");
                 break;
 
             case 5:
                 admin.generateCourseReport();
+                system("pause");
                 break;
 
             case 6:
                 cout << "Enter user ID to restore: ";
-                cin >> userId;
+                userId = getValidInput(1, 999);
                 admin.restorUser(userId);
+                system("pause");
                 break;
 
             case 7:
                 admin.restorAllUsers();
+                system("pause");
                 break;
 
             case 8:
                 if(admin.logout()) {
-                    return;  // Return to main loop which will show login screen
+                    return;
                 }
                 break;
 
             default:
                 cout << "Invalid choice!" << endl;
+                system("pause");
         }
     }
 }
+
 void displayTeacherMenu(Teacher teacher) {
     while(true) {
         system("cls");
+        printBanner("Teacher Dashboard");
         cout << "\n=== Teacher Menu ===" << endl;
         cout << "1. View My Courses" << endl;
         cout << "2. Add Homework" << endl;
@@ -157,13 +214,13 @@ void displayTeacherMenu(Teacher teacher) {
         cout << "6. Logout" << endl;
         cout << "Enter your choice: ";
         
-        int choice;
-        cin >> choice;
+        int choice = getValidInput(1, 6);
         
         switch(choice) {
             case 1: {
                 while(true) {
                     system("cls");
+                    printSubBanner("Course Management");
                     cout << "\n=== Course Management ===" << endl;
                     teacher.viewCourses();
                     
@@ -182,8 +239,7 @@ void displayTeacherMenu(Teacher teacher) {
                     }
                     
                     cout << "Select option (1-3): ";
-                    int option;
-                    cin >> option;
+                    int option = getValidInput(1, 3);
                     
                     switch(option) {
                         case 1: {
@@ -201,6 +257,7 @@ void displayTeacherMenu(Teacher teacher) {
                         }
                         case 2: {
                             system("cls");
+                            printSubBanner("Grade Management");
                             cout << "\n=== Student Grade Management ===" << endl;
                             teacher.viewEnrolledStudents(courseId);
                             
@@ -210,15 +267,10 @@ void displayTeacherMenu(Teacher teacher) {
                             
                             if(studentId != 0) {
                                 cout << "Enter grade (0-20): ";
-                                int grade;
-                                cin >> grade;
+                                int grade = getValidInput(0, 20);
                                 
-                                if(grade >= 0 && grade <= 20) {
-                                    teacher.enterGrade(studentId, courseId, grade);
-                                    cout << "\nGrade entered successfully!" << endl;
-                                } else {
-                                    cout << "\nInvalid grade! Must be between 0-20" << endl;
-                                }
+                                teacher.enterGrade(studentId, courseId, grade);
+                                cout << "\nGrade entered successfully!" << endl;
                             }
                             system("pause");
                             break;
@@ -238,14 +290,17 @@ void displayTeacherMenu(Teacher teacher) {
                 string homework;
                 
                 cout << "\n=== Add Homework ===" << endl;
+                system("cls");
+                printSubBanner("Homework Management");
                 cout << "Enter course ID: ";
                 cin >> courseId;
                 
-                cin.ignore(); // Clear input buffer
+                cin.ignore();
                 cout << "Enter homework description: ";
                 getline(cin, homework);
                 
                 teacher.addHomework(courseId, homework);
+                system("pause");
                 break;
             }
             case 3: {
@@ -258,13 +313,9 @@ void displayTeacherMenu(Teacher teacher) {
                 cout << "Enter student ID: ";
                 cin >> studentId;
                 cout << "Enter grade (0-20): ";
-                cin >> grade;
+                grade = getValidInput(0, 20);
                 
-                if(grade >= 0 && grade <= 20) {
-                    teacher.addHomeworkGrades(homeworkId, courseId, studentId, grade);
-                } else {
-                    cout << "\nInvalid grade! Must be between 0-20" << endl;
-                }
+                teacher.addHomeworkGrades(homeworkId, courseId, studentId, grade);
                 system("pause");
                 break;
             }
@@ -305,7 +356,7 @@ void displayTeacherMenu(Teacher teacher) {
             }
             case 6: {
                 if(teacher.logout()) {
-                    return;  // Return to main loop which will show login screen
+                    return;
                 }
                 break;
             }
@@ -318,41 +369,157 @@ void displayTeacherMenu(Teacher teacher) {
 
 void displayStudentMenu(Student student) {
     while(true) {
+        system("cls");
+        printBanner("Student Dashboard");
         cout << "\n=== Student Menu ===" << endl;
         cout << "1. View My Courses" << endl;
-        cout << "2. View Homework" << endl;
-        cout << "3. Submit Homework" << endl;
-        cout << "4. View Grades" << endl;
-        cout << "5. Change Password" << endl;
-        cout << "6. Logout" << endl;
+        cout << "2. View Available Courses" << endl;
+        cout << "3. View Homeworks" << endl;
+        cout << "4. View Homework Grades" << endl;
+        cout << "5. Rate Course" << endl;
+        cout << "6. Change Password" << endl;
+        cout << "7. Logout" << endl;
         cout << "Enter your choice: ";
         
-        int choice;
-        cin >> choice;
+        int choice = getValidInput(1, 7);
         
         switch(choice) {
-            case 1:
-                // View courses implementation
+            case 1: {
+                while(true) {
+                    system("cls");
+                    cout << "\n=== My Courses ===" << endl;
+                    student.viewEnrolledCourses();
+                    
+                    cout << "\nEnter course ID for details (0 to return): ";
+                    int courseId;
+                    cin >> courseId;
+                    
+                    if(courseId == 0) {
+                        break;
+                    }
+                    
+                    system("cls");
+                    student.courseInfo(courseId);
+                    system("pause");
+                }
                 break;
-            case 2:
-                // View homework implementation
+            }
+            
+            case 2: {
+                while(true) {
+                    system("cls");
+                    cout << "\n=== Available Courses ===" << endl;
+                    student.viewAvailableCourses();
+                    
+                    cout << "\nOptions:" << endl;
+                    cout << "1. Enroll in Course" << endl;
+                    cout << "2. Return to Main Menu" << endl;
+                    cout << "\nEnter option (1-2): ";
+                    
+                    int option = getValidInput(1, 2);
+                    
+                    if(option == 1) {
+                        cout << "Enter course ID to enroll (0 to cancel): ";
+                        int courseId;
+                        cin >> courseId;
+                        
+                        if(courseId != 0) {
+                            student.enrollInCourse(courseId);
+                        }
+                    } else if(option == 2) {
+                        break;
+                    }
+                    system("pause");
+                }
                 break;
-            case 3:
-                // Submit homework implementation
+            }
+            
+            case 3: {
+                while(true) {
+                    system("cls");
+                    cout << "\n=== My Homeworks ===" << endl;
+                    student.viewHomeworks();
+                    
+                    cout << "\nOptions:" << endl;
+                    cout << "1. Submit Homework" << endl;
+                    cout << "2. Return to Main Menu" << endl;
+                    cout << "\nEnter option (1-2): ";
+                    
+                    int option = getValidInput(1, 2);
+                    
+                    if(option == 1) {
+                        cout << "Enter course ID: ";
+                        int courseId;
+                        cin >> courseId;
+                        
+                        cout << "Enter homework ID: ";
+                        int homeworkId;
+                        cin >> homeworkId;
+                        
+                        cout << "Enter your submission: ";
+                        cin.ignore();
+                        string submission;
+                        getline(cin, submission);
+                        
+                        student.submitHomework(courseId, homeworkId, submission);
+                    } else if(option == 2) {
+                        break;
+                    }
+                    system("pause");
+                }
                 break;
-            case 4:
-                // View grades implementation
+            }
+            
+            case 4: {
+                system("cls");
+                cout << "\n=== Homework Grades ===" << endl;
+                student.viewHomeworksGrades();
+                system("pause");
                 break;
-            case 5:
-                // Change password implementation
+            }
+            
+            case 5: {
+                system("cls");
+                cout << "\n=== Rate Course ===" << endl;
+                student.viewEnrolledCourses();
+                
+                cout << "\nEnter course ID to rate (0 to cancel): ";
+                int courseId;
+                cin >> courseId;
+                
+                if(courseId != 0) {
+                    cout << "Enter rating (1-5): ";
+                    int rating = getValidInput(1, 5);
+                    
+                    student.giveGradeToCourse(courseId, rating);
+                }
+                system("pause");
                 break;
-            case 6:
-                // if(User::logout()) {
-                //     return;  // Return to main loop which will show login screen
-                // }
+            }
+            
+            case 6: {
+                string oldPassword, newPassword;
+                cout << "\n=== Change Password ===" << endl;
+                cout << "Enter old password: ";
+                cin >> oldPassword;
+                cout << "Enter new password: ";
+                cin >> newPassword;
+                
+                student.changePassword(oldPassword, newPassword);
+                system("pause");
                 break;
+            }
+            
+            case 7: {
+                if(student.logout()) {
+                    return;
+                }
+                break;
+            }
+            
             default:
                 cout << "Invalid choice!" << endl;
+                system("pause");
         }
     }
 }

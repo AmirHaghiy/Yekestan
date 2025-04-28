@@ -12,7 +12,7 @@
         {
             "capacity": 25,
             "course_id": 2,
-            "enrolled": 20,
+            "enrolled": 21,
             "start_time": "2:00 PM",
             "teacher_id": 3,
             "title": "Data Structures",

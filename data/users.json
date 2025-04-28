@@ -135,6 +135,30 @@
             "password": "admin",
             "role": "admin",
             "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 18,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "amir@gmail.com",
+            "id": 19,
+            "name": "amir",
+            "password": "1234",
+            "role": "student",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 20,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
         }
     ]
 }
