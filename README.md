@@ -1,109 +1,119 @@
-# Yekestan Learning Management System
+# 🎓 Yekestan Learning Management System (LMS)
 
-A modern console-based Learning Management System (LMS) built with C++ that provides separate interfaces for administrators, teachers, and students. Features a Telegram-inspired UI with a clean, professional design.
+A modern, console-based Learning Management System developed in C++ for Isfahan University of Technology. Features a clean, Telegram-inspired interface and comprehensive functionality for administrators, teachers, and students.
 
-## 🚀 Features
+## ✨ Features
 
-### 👑 Admin Dashboard
-- Create, view, update, and delete users
-- Manage system access and permissions
-- View comprehensive course reports
-- Restore deleted users
-- Monitor system activities
+### 👑 Admin Portal
+- Complete user management (CRUD operations)
+- Course report generation
+- User restoration system
+- Access control management
+- System monitoring
 
-### 👨‍🏫 Teacher Dashboard
-- Create and manage courses
-- Add and grade homework assignments
-- Post course announcements
-- View enrolled students
-- Track student progress
-- Manage course materials
+### 👨‍🏫 Teacher Portal
+- Course creation and management
+- Homework assignment and grading
+- Course announcements
+- Student grade management
+- Course roster viewing
 
-### 👨‍🎓 Student Dashboard
-- Browse and enroll in available courses
-- Submit homework assignments
-- View grades and progress
-- Rate course experience
-- Access course announcements
-- Track enrolled courses
+### 👨‍🎓 Student Portal
+- Course enrollment system
+- Homework submission
+- Grade viewing
+- Course rating system
+- Course announcement viewing
 
-## 💻 Technical Details
+## 🛠️ Technical Stack
 
-### Prerequisites
-- C++ 17 or higher
-- nlohmann/json library
-- Windows OS (for console colors)
-- Visual Studio Code (recommended IDE)
+- **Language**: C++ 17
+- **Data Storage**: JSON
+- **UI**: Console-based with colored interface
+- **Architecture**: Object-Oriented Design
+- **Platform**: Windows
 
-### Project Structure
+## 📁 Project Structure
+
 ```
 Yekestan/
 ├── src/
-│   ├── main.cpp          # Main program logic
+│   ├── main.cpp          # Program entry point
 │   ├── admin.cpp         # Admin functionality
 │   ├── teacher.cpp       # Teacher functionality
 │   └── student.cpp       # Student functionality
 ├── include/
 │   ├── user.h           # User class definitions
 │   ├── course.h         # Course management
-│   ├── homework.h       # Homework handling
+│   ├── homework.h       # Homework system
 │   ├── grade.h          # Grading system
 │   └── enrollment.h     # Enrollment management
 └── data/
-    ├── users.json       # User database
+    ├── users.json       # User data
     ├── courses.json     # Course information
-    ├── homeworks.json   # Homework assignments
-    ├── grades.json      # Student grades
-    └── enrollments.json # Course enrollments
+    ├── homework.json    # Homework data
+    └── grades.json      # Grade records
 ```
 
-## 🛠️ Installation
+## 🚀 Getting Started
+
+### Prerequisites
+- Windows operating system
+- C++ compiler (MinGW or MSVC)
+- nlohmann/json library
+
+### Installation
 
 1. Clone the repository:
 ```bash
 git clone https://github.com/yourusername/yekestan-lms.git
 ```
 
-2. Install dependencies:
-```bash
-# Include nlohmann/json
-vcpkg install nlohmann-json:x64-windows
-```
-
-3. Build the project:
+2. Navigate to project directory:
 ```bash
 cd yekestan-lms
+```
+
+3. Compile the project:
+```bash
 g++ src/*.cpp -o yekestan.exe -std=c++17
 ```
 
-## 🎮 Usage
+### Default Accounts
 
-Run the executable:
-```bash
-./yekestan.exe
+```
+Admin:    admin@gmail.com / admin
+Teacher:  ali@gmail.com / 1234
+Student:  amir@gmail.com / 1234
 ```
 
-Default login credentials:
-- Admin: admin@gmail.com / admin
-- Teacher: teacher@gmail.com / teacher
-- Student: student@gmail.com / student
+## 🎨 Interface
 
-## 🎨 UI Features
 - Telegram-inspired color scheme
-- Clean and intuitive interface
-- Professional banner design
 - Color-coded menus
-- Easy navigation
-
-## 📝 License
-This project is licensed under the MIT License - see the LICENSE file for details
 
 ## 🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/yekestan-lms/issues).
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 🌟 Acknowledgments
+
+- Isfahan University of Technology
+- nlohmann/json library
+- Telegram for UI inspiration
 
 ## 👥 Authors
-- **AmirMahdy Haghi** - *Initial work* - [YourGithub](https://github.com/yourusername)
 
-## 🙏 Acknowledgments
-- nlohmann/json library for JSON handling
-- Telegram for UI inspiration
+- **Amir Mahdy Haghi**  - [Your GitHub Profile](https://github.com/AmirHaghiy)
+
+## 📬 Contact
+
+- Project Link:([https://github.com/yourusername/yekestan-lms](https://github.com/AmirHaghiy/Yekestan.git))
+- Your Email: a.haghi2006@gmail.com
+
+---
+Made with ❤️ at Isfahan University of Technology
