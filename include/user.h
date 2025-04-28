@@ -40,6 +40,11 @@ public:
     void restorUser(int userId);
     void restorAllUsers();
     void generateCourseReport();
+
+    static Admin loginAdmin(const std::string &email, const std::string &password);
+
+private:
+    int adminId;
 };
 
 class Teacher : public User
@@ -51,7 +56,10 @@ public:
     // Constructor
     Teacher(int id, const std::string &name, const std::string &email, const std::string &password);
 
+    static Teacher loginTeacher(const std::string& email, const std::string password);
+
     void createCourse(const std::string &title, int capacity, std::string startTime, int vahed);
+    void viewCourses();
     void enterGrade(int , int , int);
     void viewEnrolledStudents(int);
     void addHomework(int, std::string);
@@ -63,11 +71,10 @@ public:
 
 class Student : public User
 {
-private:
-    int studentId;
-
 public:
     Student(int id, const std::string &name, const std::string &email, const std::string &password);
+
+    static Student loginStudent(const std::string &email, const std::string &password);
 
     void viewEnrolledCourses();
     void viewAvailableCourses();
@@ -75,6 +82,9 @@ public:
     void viewHomeworksGrades();
     void giveGradeToCourse(int courseId, int grade);
     void enrollInCourse(int courseId);
+
+private:
+    int studentId;
 };
 
 #endif

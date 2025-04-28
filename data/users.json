@@ -79,6 +79,62 @@
             "password": "1234",
             "role": "student",
             "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 11,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "abolfazl@gmail.com",
+            "id": 12,
+            "name": "abolfazl",
+            "password": "1234",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 13,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "1",
+            "id": 14,
+            "name": "amir",
+            "password": "1234",
+            "role": "teacher",
+            "status": "active"
+        },
+        {
+            "email": "ali@gmail.com",
+            "id": 15,
+            "name": "ali",
+            "password": "1234",
+            "role": "teacher",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 16,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 17,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
         }
     ]
 }

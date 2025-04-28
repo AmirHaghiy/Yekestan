@@ -332,3 +332,27 @@ void Admin::createCourse(const std::string &title, int teacherId, int capacity,
 
     std::cout << "Course created successfully!" << std::endl;
 }
+
+Admin Admin::loginAdmin(const std::string &email, const std::string &password) {
+    std::ifstream inputFile("../data/users.json");
+    json users;
+    inputFile >> users;
+    inputFile.close();
+
+    for (const auto &user : users["users"]) {
+        if (user["email"] == email && 
+            user["password"] == password && 
+            user["role"] == "admin" &&
+            user["status"] == "active") {
+            
+            return Admin(
+                user["id"].get<int>(),
+                user["name"],
+                user["email"],
+                user["password"]
+            );
+        }
+    }
+    
+    throw std::runtime_error("Admin not found or invalid credentials");
+}

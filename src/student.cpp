@@ -132,3 +132,27 @@ void Student::giveGradeToCourse(int courseId, int grade){
 
     std::cout << "assigned grade to course successfully!" << std::endl;
 }
+
+Student Student::loginStudent(const std::string &email, const std::string &password) {
+    std::ifstream inputFile("../data/users.json");
+    json users;
+    inputFile >> users;
+    inputFile.close();
+
+    for (const auto &user : users["users"]) {
+        if (user["email"] == email && 
+            user["password"] == password && 
+            user["role"] == "student" &&
+            user["status"] == "active") {
+            
+            return Student(
+                user["id"].get<int>(),
+                user["name"],
+                user["email"],
+                user["password"]
+            );
+        }
+    }
+    
+    throw std::runtime_error("Student not found or invalid credentials");
+}

@@ -1,24 +1,41 @@
 {
-  "homeworks": [
-    {
-      "homework_id": 1,
-      "course_id": 1,
-      "homework": ["Implement a linked list", "Write a sorting algorithm"]
-    },
-    {
-      "homework_id": 2, 
-      "course_id": 1,
-      "homework": ["Create a binary tree", "Implement tree traversal"]
-    },
-    {
-      "homework_id": 1,
-      "course_id": 2,
-      "homework": ["Design a hash table", "Handle collisions"]
-    },
-    {
-      "homework_id": 2,
-      "course_id": 2, 
-      "homework": ["Implement graph algorithms", "Create shortest path finder"]
-    }
-  ]
+    "homeworks": [
+        {
+            "course_id": 1,
+            "homework": [
+                "Implement a linked list",
+                "Write a sorting algorithm"
+            ],
+            "homework_id": 1
+        },
+        {
+            "course_id": 1,
+            "homework": [
+                "Create a binary tree",
+                "Implement tree traversal"
+            ],
+            "homework_id": 2
+        },
+        {
+            "course_id": 2,
+            "homework": [
+                "Design a hash table",
+                "Handle collisions"
+            ],
+            "homework_id": 1
+        },
+        {
+            "course_id": 2,
+            "homework": [
+                "Implement graph algorithms",
+                "Create shortest path finder"
+            ],
+            "homework_id": 2
+        },
+        {
+            "course_id": 4,
+            "homework": "alllooo",
+            "homework_id": 5
+        }
+    ]
 }

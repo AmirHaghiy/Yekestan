@@ -13,9 +13,7 @@ void displayStudentMenu(Student student);
 void displayTeacherMenu(Teacher teacher);
 
 int main() {
-    static Admin admin(1, "admin", "admin@gmail.com", "admin");
-    static Teacher teacher(2, "teacher", "teacher@gmail.com", "teacher");
-    static Student student(3, "student", "student@gmail.com", "student");
+  //  static Admin admin(1, "admin", "admin@gmail.com", "admin");
     string userRole;
     bool running = true;
     
@@ -35,13 +33,31 @@ int main() {
         
         if(loggedIn) {
             if(userRole == "admin") {
-                displayAdminMenu(admin);
+                try {
+                    Admin admin = Admin::loginAdmin(email, password);
+                    displayAdminMenu(admin);
+                } catch (const std::exception& e) {
+                    cout << "Error: " << e.what() << endl;
+                    system("pause");
+                }
             }
             else if(userRole == "teacher") {
-                displayTeacherMenu(teacher);
+                try {
+                    Teacher teacher = Teacher::loginTeacher(email, password);
+                    displayTeacherMenu(teacher);
+                } catch (const std::exception& e) {
+                    cout << "Error: " << e.what() << endl;
+                    system("pause");
+                }
             }
             else if(userRole == "student") {
-                displayStudentMenu(student);
+                try {
+                    Student student = Student::loginStudent(email, password);
+                    displayStudentMenu(student);
+                } catch (const std::exception& e) {
+                    cout << "Error: " << e.what() << endl;
+                    system("pause");
+                }
             }
         }
     }
@@ -131,11 +147,12 @@ void displayAdminMenu(Admin admin) {
 }
 void displayTeacherMenu(Teacher teacher) {
     while(true) {
+        system("cls");
         cout << "\n=== Teacher Menu ===" << endl;
         cout << "1. View My Courses" << endl;
         cout << "2. Add Homework" << endl;
         cout << "3. Grade Homework" << endl;
-        cout << "4. View Student Progress" << endl;
+        cout << "4. Create Course" << endl;
         cout << "5. Change Password" << endl;
         cout << "6. Logout" << endl;
         cout << "Enter your choice: ";
@@ -144,28 +161,157 @@ void displayTeacherMenu(Teacher teacher) {
         cin >> choice;
         
         switch(choice) {
-            case 1:
-                // View courses implementation
+            case 1: {
+                while(true) {
+                    system("cls");
+                    cout << "\n=== Course Management ===" << endl;
+                    teacher.viewCourses();
+                    
+                    cout << "\nOptions:" << endl;
+                    cout << "1. Make an Announcement" << endl;
+                    cout << "2. Manage Student Grades" << endl;
+                    cout << "3. Return to Main Menu" << endl;
+                    cout << "\nEnter course ID (0 to return): ";
+                    
+                    int courseId;
+                    cin >> courseId;
+                    
+                    if(courseId == 0) {
+                        system("cls");
+                        break;
+                    }
+                    
+                    cout << "Select option (1-3): ";
+                    int option;
+                    cin >> option;
+                    
+                    switch(option) {
+                        case 1: {
+                            system("cls");
+                            cout << "\n=== Make Announcement ===" << endl;
+                            cout << "Enter announcement (end with Enter):" << endl;
+                            cin.ignore();
+                            string announcement;
+                            getline(cin, announcement);
+                            
+                            teacher.addAnnouncment(courseId, announcement);
+                            cout << "\nAnnouncement added successfully!" << endl;
+                            system("pause");
+                            break;
+                        }
+                        case 2: {
+                            system("cls");
+                            cout << "\n=== Student Grade Management ===" << endl;
+                            teacher.viewEnrolledStudents(courseId);
+                            
+                            cout << "\nEnter student ID (0 to cancel): ";
+                            int studentId;
+                            cin >> studentId;
+                            
+                            if(studentId != 0) {
+                                cout << "Enter grade (0-20): ";
+                                int grade;
+                                cin >> grade;
+                                
+                                if(grade >= 0 && grade <= 20) {
+                                    teacher.enterGrade(studentId, courseId, grade);
+                                    cout << "\nGrade entered successfully!" << endl;
+                                } else {
+                                    cout << "\nInvalid grade! Must be between 0-20" << endl;
+                                }
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case 3:
+                            system("cls");
+                            break;
+                        default:
+                            cout << "\nInvalid option!" << endl;
+                            system("pause");
+                    }
+                }
                 break;
-            case 2:
-                // Add homework implementation
+            }
+            case 2: {
+                int courseId;
+                string homework;
+                
+                cout << "\n=== Add Homework ===" << endl;
+                cout << "Enter course ID: ";
+                cin >> courseId;
+                
+                cin.ignore(); // Clear input buffer
+                cout << "Enter homework description: ";
+                getline(cin, homework);
+                
+                teacher.addHomework(courseId, homework);
                 break;
-            case 3:
-                // Grade homework implementation
+            }
+            case 3: {
+                int courseId, studentId, homeworkId, grade;
+                cout << "\n=== Grade Homework ===" << endl;
+                cout << "Enter course ID: ";
+                cin >> courseId;
+                cout << "Enter homework ID: ";
+                cin >> homeworkId;
+                cout << "Enter student ID: ";
+                cin >> studentId;
+                cout << "Enter grade (0-20): ";
+                cin >> grade;
+                
+                if(grade >= 0 && grade <= 20) {
+                    teacher.addHomeworkGrades(homeworkId, courseId, studentId, grade);
+                } else {
+                    cout << "\nInvalid grade! Must be between 0-20" << endl;
+                }
+                system("pause");
                 break;
-            case 4:
-                // View progress implementation
+            }
+            case 4: {
+                string title, startTime;
+                int capacity, vahed;
+                
+                cout << "\n=== Create Course ===" << endl;
+                cout << "Enter course title: ";
+                cin.ignore();
+                getline(cin, title);
+                
+                cout << "Enter capacity: ";
+                cin >> capacity;
+                
+                cout << "Enter start time (e.g., 9:00 AM): ";
+                cin.ignore();
+                getline(cin, startTime);
+                
+                cout << "Enter vahed (units): ";
+                cin >> vahed;
+                
+                teacher.createCourse(title, capacity, startTime, vahed);
+                system("pause");
                 break;
-            case 5:
-                // Change password implementation
+            }
+            case 5: {
+                string oldPassword, newPassword;
+                cout << "\n=== Change Password ===" << endl;
+                cout << "Enter old password: ";
+                cin >> oldPassword;
+                cout << "Enter new password: ";
+                cin >> newPassword;
+                
+                teacher.changePassword(oldPassword, newPassword);
+                system("pause");
                 break;
-            case 6:
-                // if(User::logout()) {
-                //     return;  // Return to main loop which will show login screen
-                // }
+            }
+            case 6: {
+                if(teacher.logout()) {
+                    return;  // Return to main loop which will show login screen
+                }
                 break;
+            }
             default:
                 cout << "Invalid choice!" << endl;
+                system("pause");
         }
     }
 }

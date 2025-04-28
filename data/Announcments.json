@@ -1,16 +1,16 @@
 {
-  "announcments": [
-      {
-          "course_id": 1,
-          "announcments": "Final project deadline: June 1st"
-      },
-      {
-          "course_id": 2,
-          "announcments": "Quiz next week on Sorting Algorithms"
-      },
-      {
-          "course_id": 3,
-          "announcments": "Guest lecture by Industry Expert on May 15th"
-      }
-  ]
+    "announcments": [
+        {
+            "announcments": "Final project deadline: June 1st",
+            "course_id": 1
+        },
+        {
+            "announcments": "",
+            "course_id": 2
+        },
+        {
+            "announcments": "Guest lecture by Industry Expert on May 15th",
+            "course_id": 3
+        }
+    ]
 }

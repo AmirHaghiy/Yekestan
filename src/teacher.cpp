@@ -10,11 +10,9 @@ using json = nlohmann::json;
 Teacher::Teacher(int id, const std::string &name, const std::string &email, const std::string &password)
     : User(name, password, email, id, "teacher"), teacherId(id) {}
 
-void Teacher::createCourse(const std::string &title, int capacity, std::string startTime, int vahed)
-{
+void Teacher::createCourse(const std::string &title, int capacity, std::string startTime, int vahed) {
     std::ifstream inputFile("../data/courses.json");
     json courses;
-
     inputFile >> courses;
     inputFile.close();
 
@@ -27,23 +25,18 @@ void Teacher::createCourse(const std::string &title, int capacity, std::string s
         {"enrolled", 0},
         {"start_time", startTime},
         {"vahed", vahed}
-    
-    
     };
 
     courses["courses"].push_back(newCourse);
 
-    std::ofstream outputFile("data/courses.json");
+    std::ofstream outputFile("../data/courses.json");  // Fixed path
     outputFile << courses.dump(4);
     outputFile.close();
 
     std::cout << "Course created successfully!" << std::endl;
 }
 
-
-
-void Teacher::enterGrade(int studentId, int courseId, int grade)
-{
+void Teacher::enterGrade(int studentId, int courseId, int grade) {
     std::ifstream inputFile("../data/grades.json");
     json grades;
     inputFile >> grades;
@@ -52,7 +45,8 @@ void Teacher::enterGrade(int studentId, int courseId, int grade)
     json newGrade = {
         {"student_id", studentId},
         {"course_id", courseId},
-        {"score", grade}};
+        {"grade", grade}
+    };
 
     grades["grades"].push_back(newGrade);
 
@@ -62,47 +56,44 @@ void Teacher::enterGrade(int studentId, int courseId, int grade)
 
     std::cout << "Grade entered successfully!" << std::endl;
 }
-void Teacher::viewEnrolledStudents(int courseId)
-{
-    std::ifstream inputFile("../data/enrollments.json");
-    json enrollments;
-    inputFile >> enrollments;
-    inputFile.close();
 
-    std::ifstream inputFile2("../data/users.json");
-    json users;
-    inputFile2 >> users;
-    inputFile2.close();
+void Teacher::viewEnrolledStudents(int courseId) {
+    std::ifstream enrollFile("../data/enrollments.json");
+    std::ifstream userFile("../data/users.json");
+    json enrollments, users;
+    enrollFile >> enrollments;
+    userFile >> users;
+    enrollFile.close();
+    userFile.close();
+
     std::cout << "students______________\n";
 
-    for (auto &enrolled : enrollments)
-    {
-        if (enrolled["course_id"] == courseId)
-        {
-            for (auto &user : users)
-            {
-                if (user["id"] == enrolled["student_id"])
-                {
-                    std::cout << user["name"] << "   " << user["id"] << std::endl;
+    for (const auto &enrolled : enrollments["enrollments"]) {
+        if (enrolled["course_id"] == courseId) {
+            for (const auto &user : users["users"]) {
+                if (user["id"] == enrolled["student_id"]) {
+                    std::cout << "Name: " << user["name"] 
+                             << " | ID: " << user["id"] << std::endl;
                 }
             }
         }
     }
 }
-void Teacher::addHomeworkGrades(int homeworkId, int courseId, int studentId, int grade)
-{
+
+void Teacher::addHomeworkGrades(int homeworkId, int courseId, int studentId, int grade) {
     std::ifstream inputFile("../data/HomeworkGrades.json");
     json grades;
     inputFile >> grades;
     inputFile.close();
 
     json newGrade = {
-        {"course_id" , courseId},
+        {"course_id", courseId},
         {"homework_id", homeworkId},
         {"student_id", studentId},
-        {"grade", grade}};
+        {"grade", grade}
+    };
 
-    grades["grades"].push_back(newGrade);
+    grades["homeworkGrades"].push_back(newGrade);
 
     std::ofstream outputFile("../data/HomeworkGrades.json");
     outputFile << grades.dump(4);
@@ -110,20 +101,28 @@ void Teacher::addHomeworkGrades(int homeworkId, int courseId, int studentId, int
 
     std::cout << "Homework grade entered successfully!" << std::endl;
 }
-void Teacher::addAnnouncment(int courseId, std::string announcment){
-    std::ifstream inputFile("../data/announcments.json");
-    json announcments;
-    inputFile >> announcments;
+
+void Teacher::addAnnouncment(int courseId, std::string announcment) {
+    std::ifstream inputFile("../data/Announcments.json");
+    json announcements;
+    inputFile >> announcements;
     inputFile.close();
 
-    for(auto &announcment1 : announcments){
-        if(announcment1["course_id"] == courseId){
-            announcment1["announcments"] += announcment;
+    for (auto &announcement : announcements["announcments"]) {
+        if (announcement["course_id"] == courseId) {
+            announcement["announcments"] = announcment;  // Replace instead of append
+            break;
         }
     }
-    std::cout << "Announcment added successfully";
+
+    std::ofstream outputFile("../data/Announcments.json");
+    outputFile << announcements.dump(4);
+    outputFile.close();
+
+    std::cout << "Announcement added successfully!" << std::endl;
 }
-void Teacher::addHomework(int courseId, std::string homework){
+
+void Teacher::addHomework(int courseId, std::string homework) {
     std::ifstream inputFile("../data/Homeworks.json");
     json homeworks;
     inputFile >> homeworks;
@@ -135,11 +134,58 @@ void Teacher::addHomework(int courseId, std::string homework){
         {"course_id", courseId},
         {"homework", homework}
     };
+
     homeworks["homeworks"].push_back(newHomework);
 
     std::ofstream outputFile("../data/Homeworks.json");
     outputFile << homeworks.dump(4);
     outputFile.close();
 
-    std::cout << "Homework  addeds successfully!" << std::endl;
+    std::cout << "Homework added successfully!" << std::endl;
 }
+
+Teacher Teacher::loginTeacher(const std::string &email, std::string password) {
+    std::ifstream inputFile("../data/users.json");
+    json users;
+    inputFile >> users;
+    inputFile.close();
+
+    for (const auto &user : users["users"]) {
+        if (user["email"] == email && 
+            user["password"] == password && 
+            user["role"] == "teacher" &&
+            user["status"] == "active") {
+            
+            return Teacher(
+                user["id"].get<int>(),
+                user["name"],
+                user["email"],
+                user["password"]
+            );
+        }
+    }
+    
+    throw std::runtime_error("Teacher not found or invalid credentials");
+}
+
+void Teacher::viewCourses() {
+    std::ifstream inputFile("../data/courses.json");
+    json courses;
+    inputFile >> courses;
+    inputFile.close();
+
+    std::cout << "courses____________\n";
+
+    for(const auto& course : courses["courses"]) {
+        if(course["teacher_id"] == teacherId) {
+            std::cout << "title: " << course["title"] 
+                     << "\ncourse id: " << course["course_id"] 
+                     << "\ncapacity: " << course["capacity"]
+                     << "\nenrolled: " << course["enrolled"]
+                     << "\nstart time: " << course["start_time"]
+                     << "\nvahed: " << course["vahed"]
+                     << "\n------------------\n";
+        }
+    }
+}
+
