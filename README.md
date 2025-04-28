@@ -1,95 +1,109 @@
 # Yekestan Learning Management System
 
-A console-based Learning Management System (LMS) built in C++ that handles course management for administrators, teachers, and students.
+A modern console-based Learning Management System (LMS) built with C++ that provides separate interfaces for administrators, teachers, and students. Features a Telegram-inspired UI with a clean, professional design.
 
-## Features
+## 🚀 Features
 
-### Admin Dashboard
-- User Management (CRUD operations)
-- View Course Reports
-- Restore Deleted Users
-- System Administration
+### 👑 Admin Dashboard
+- Create, view, update, and delete users
+- Manage system access and permissions
+- View comprehensive course reports
+- Restore deleted users
+- Monitor system activities
 
-### Teacher Dashboard
-- Course Management
-- Add/Grade Homework
-- Make Course Announcements
-- Create New Courses
-- View Enrolled Students
+### 👨‍🏫 Teacher Dashboard
+- Create and manage courses
+- Add and grade homework assignments
+- Post course announcements
+- View enrolled students
+- Track student progress
+- Manage course materials
 
-### Student Dashboard
-- View/Enroll in Courses
-- Submit Homework
-- View Grades
-- Rate Courses
-- View Course Announcements
+### 👨‍🎓 Student Dashboard
+- Browse and enroll in available courses
+- Submit homework assignments
+- View grades and progress
+- Rate course experience
+- Access course announcements
+- Track enrolled courses
 
-## Technical Details
+## 💻 Technical Details
 
-### Dependencies
+### Prerequisites
 - C++ 17 or higher
-- nlohmann/json library for JSON handling
+- nlohmann/json library
 - Windows OS (for console colors)
+- Visual Studio Code (recommended IDE)
 
 ### Project Structure
 ```
 Yekestan/
 ├── src/
-│   ├── main.cpp
-│   ├── admin.cpp
-│   ├── teacher.cpp
-│   └── student.cpp
+│   ├── main.cpp          # Main program logic
+│   ├── admin.cpp         # Admin functionality
+│   ├── teacher.cpp       # Teacher functionality
+│   └── student.cpp       # Student functionality
 ├── include/
-│   ├── user.h
-│   ├── course.h
-│   ├── homework.h
-│   ├── grade.h
-│   └── enrollment.h
-└# Yekestan Learning Management System
-
-A console-based Learning Management System (LMS) built in C++ that handles course management for administrators, teachers, and students.
-
-## Features
-
-### Admin Dashboard
-- User Management (CRUD operations)
-- View Course Reports
-- Restore Deleted Users
-- System Administration
-
-### Teacher Dashboard
-- Course Management
-- Add/Grade Homework
-- Make Course Announcements
-- Create New Courses
-- View Enrolled Students
-
-### Student Dashboard
-- View/Enroll in Courses
-- Submit Homework
-- View Grades
-- Rate Courses
-- View Course Announcements
-
-## Technical Details
-
-### Dependencies
-- C++ 17 or higher
-- nlohmann/json library for JSON handling
-- Windows OS (for console colors)
-
-### Project Structure
+│   ├── user.h           # User class definitions
+│   ├── course.h         # Course management
+│   ├── homework.h       # Homework handling
+│   ├── grade.h          # Grading system
+│   └── enrollment.h     # Enrollment management
+└── data/
+    ├── users.json       # User database
+    ├── courses.json     # Course information
+    ├── homeworks.json   # Homework assignments
+    ├── grades.json      # Student grades
+    └── enrollments.json # Course enrollments
 ```
-Yekestan/
-├── src/
-│   ├── main.cpp
-│   ├── admin.cpp
-│   ├── teacher.cpp
-│   └── student.cpp
-├── include/
-│   ├── user.h
-│   ├── course.h
-│   ├── homework.h
-│   ├── grade.h
-│   └── enrollment.h
-└
+
+## 🛠️ Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/yekestan-lms.git
+```
+
+2. Install dependencies:
+```bash
+# Include nlohmann/json
+vcpkg install nlohmann-json:x64-windows
+```
+
+3. Build the project:
+```bash
+cd yekestan-lms
+g++ src/*.cpp -o yekestan.exe -std=c++17
+```
+
+## 🎮 Usage
+
+Run the executable:
+```bash
+./yekestan.exe
+```
+
+Default login credentials:
+- Admin: admin@gmail.com / admin
+- Teacher: teacher@gmail.com / teacher
+- Student: student@gmail.com / student
+
+## 🎨 UI Features
+- Telegram-inspired color scheme
+- Clean and intuitive interface
+- Professional banner design
+- Color-coded menus
+- Easy navigation
+
+## 📝 License
+This project is licensed under the MIT License - see the LICENSE file for details
+
+## 🤝 Contributing
+Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/yekestan-lms/issues).
+
+## 👥 Authors
+- **Your Name** - *Initial work* - [YourGithub](https://github.com/yourusername)
+
+## 🙏 Acknowledgments
+- nlohmann/json library for JSON handling
+- Telegram for UI inspiration
