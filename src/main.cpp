@@ -31,17 +31,18 @@ void printBanner(const string& text) {
 
 void printSubBanner(const string& text) {
     setColor(COLOR_LIGHTBLUE);
-    cout << "\n+-" << string(48, '-') << "-+" << endl;
+    cout << "\n+-" << string(44, '-') << "-+" << endl;
     cout << "| " << string(21, ' ') << text << string(21 - text.length(), ' ') << " |" << endl;
-    cout << "+-" << string(48, '-') << "-+\n" << endl;
+    cout << "+-" << string(44, '-') << "-+\n" << endl;
     setColor(COLOR_DEFAULT);
 }
 
 void printFooter() {
     setColor(COLOR_LIGHTBLUE);
-    cout << "\n+-" << string(48, '-') << "-+" << endl;
-    cout << "| " << string(15, ' ') << "© 2025 Yekestan LMS" << string(15, ' ') << " |" << endl;
-    cout << "+-" << string(48, '-') << "-+" << endl;
+    cout << "\n+=" << string(44, '=') << "=+" << endl;
+    cout << "| " << string(15, ' ') << "© 2025 Yekestan LMS" << string(12, ' ') << " |" << endl;
+    cout << "| " << string(10, ' ') << "Isfahan University of Technology" << string(7, ' ') << " |" << endl;
+    cout << "+=" << string(44, '=') << "=+" << endl;
     setColor(COLOR_DEFAULT);
 }
 
