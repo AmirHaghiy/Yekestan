@@ -102,7 +102,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/yourusername/yekestan-lms/issues).
 
 ## 👥 Authors
-- **Your Name** - *Initial work* - [YourGithub](https://github.com/yourusername)
+- **AmirMahdy Haghi** - *Initial work* - [YourGithub](https://github.com/yourusername)
 
 ## 🙏 Acknowledgments
 - nlohmann/json library for JSON handling
