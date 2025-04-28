@@ -37,6 +37,14 @@ void printSubBanner(const string& text) {
     setColor(COLOR_DEFAULT);
 }
 
+void printFooter() {
+    setColor(COLOR_LIGHTBLUE);
+    cout << "\n+-" << string(48, '-') << "-+" << endl;
+    cout << "| " << string(15, ' ') << "© 2025 Yekestan LMS" << string(15, ' ') << " |" << endl;
+    cout << "+-" << string(48, '-') << "-+" << endl;
+    setColor(COLOR_DEFAULT);
+}
+
 void displayAdminMenu(Admin admin);
 void displayStudentMenu(Student student);
 void displayTeacherMenu(Teacher teacher);
@@ -48,53 +56,60 @@ int main() {
     
     while(running) {
         system("cls");
-        printBanner("Welcome to Yekestan ");
-        cout << "Please login to continue" << endl;
-        cout << "Enter your Email (or 'exit' to quit): ";
-        string email;
-        cin >> email;
+        printBanner("Welcome to Yekestan");
+        cout << "\nSelect your role:" << endl;
+        cout << "1. Admin" << endl;
+        cout << "2. Teacher" << endl;
+        cout << "3. Student" << endl;
+        cout << "4. Exit" << endl;
+        cout << "\nEnter your choice (1-4): ";
+        printFooter();
         
-        if(email == "exit") {
+        int roleChoice = getValidInput(1, 4);
+        
+        if(roleChoice == 4) {
             break;
         }
+
+        system("cls");
+        printBanner("Login");
+        cout << "Enter your Email: ";
+        string email;
+        cin >> email;
         
         cout << "Enter your PASSWORD: ";
         string password;
         cin >> password;
         
-        int loggedIn = 0;
-        userRole = User::login(email, password, loggedIn);
-        
-        if(loggedIn) {
-            if(userRole == "admin") {
-                try {
+        try {
+            switch(roleChoice) {
+                case 1: {
                     Admin admin = Admin::loginAdmin(email, password);
                     displayAdminMenu(admin);
-                } catch (const std::exception& e) {
-                    cout << "Error: " << e.what() << endl;
-                    system("pause");
+                    break;
                 }
-            }
-            else if(userRole == "teacher") {
-                try {
+                case 2: {
                     Teacher teacher = Teacher::loginTeacher(email, password);
                     displayTeacherMenu(teacher);
-                } catch (const std::exception& e) {
-                    cout << "Error: " << e.what() << endl;
-                    system("pause");
+                    break;
                 }
-            }
-            else if(userRole == "student") {
-                try {
+                case 3: {
                     Student student = Student::loginStudent(email, password);
                     displayStudentMenu(student);
-                } catch (const std::exception& e) {
-                    cout << "Error: " << e.what() << endl;
-                    system("pause");
+                    break;
                 }
             }
+        } catch (const std::exception& e) {
+            cout << "\nError: " << e.what() << endl;
+            system("pause");
         }
     }
+    
+    system("cls");
+    printBanner("Goodbye!");
+    cout << "Thank you for using Yekestan LMS" << endl;
+    printFooter();
+    system("pause");
     return 0;
 }
 
@@ -198,6 +213,8 @@ void displayAdminMenu(Admin admin) {
                 cout << "Invalid choice!" << endl;
                 system("pause");
         }
+        
+        printFooter();
     }
 }
 
@@ -364,6 +381,8 @@ void displayTeacherMenu(Teacher teacher) {
                 cout << "Invalid choice!" << endl;
                 system("pause");
         }
+        
+        printFooter();
     }
 }
 
@@ -521,5 +540,7 @@ void displayStudentMenu(Student student) {
                 cout << "Invalid choice!" << endl;
                 system("pause");
         }
+        
+        printFooter();
     }
 }

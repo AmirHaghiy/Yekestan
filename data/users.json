@@ -159,6 +159,22 @@
             "password": "admin",
             "role": "admin",
             "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 21,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
+        },
+        {
+            "email": "admin@gmail.com",
+            "id": 22,
+            "name": "admin",
+            "password": "admin",
+            "role": "admin",
+            "status": "active"
         }
     ]
 }
